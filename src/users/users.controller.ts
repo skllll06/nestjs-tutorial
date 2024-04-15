@@ -8,17 +8,20 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
   @Get()
-  findAll(@Query('role') role?: 'INTERN' | 'MANAGER' | 'EMPLOYEE' | 'ADMIN') {
-    return [];
+  findAll(@Query('role') role?: 'INTERN' | 'MANAGER' | 'EMPLOYEE') {
+    return this.usersService.findAll(role);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return { id };
+    return this.usersService.findOne(id);
   }
 
   @Post()
